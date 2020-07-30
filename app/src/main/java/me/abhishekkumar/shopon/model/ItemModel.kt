@@ -13,9 +13,11 @@ data class ItemModel(
     val category: String? = null,
     val description: String? = null,
     val image: String? = null,
+    val stock: Int? = 0,
+    val discount: Int? = 0,
     val price: Double? = 0.0,
     val title: String? = null
-) : Serializable{
+) : Serializable {
     companion object {
         const val TABLE_NAME = "ITEM_TABLE"
     }

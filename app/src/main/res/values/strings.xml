@@ -2,4 +2,15 @@
     <string name="app_name">Shopon</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cart">Cart</string>
+    <string name="order">Order</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="onemorebtn">oneMoreBtn</string>
+    <string name="onelessbtn">oneLessBtn</string>
+    <string name="productimage">productImage</string>
+    <string name="cartproductimage">cartProductImage</string>
+    <string name="ok">Ok</string>
+    <string name="your_order_has_been_placed">Your order has been placed.</string>
+    <string name="order_placed">Order Placed</string>
+    <string name="itemimage">itemImage</string>
 </resources>

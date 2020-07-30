@@ -1,23 +1,24 @@
 package me.abhishekkumar.shopon.ui.productList
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_product_list.*
-import me.abhishekkumar.shopon.databinding.FragmentProductListBinding
+import me.abhishekkumar.shopon.R
 import me.abhishekkumar.shopon.ui.productList.adapter.ProductListAdapter
-import me.abhishekkumar.shopon.ui.productList.viewmodel.ItemViewModel
+import me.abhishekkumar.shopon.ui.viewmodel.ShoponViewModel
 import me.abhishekkumar.shopon.utils.InternetConnectionUtils
 
 @AndroidEntryPoint
 class ProductListFragment : Fragment() {
 
-    private val viewModel: ItemViewModel by viewModels()
+    private val viewModel: ShoponViewModel by viewModels()
     private val productListAdapter =
         ProductListAdapter(arrayListOf())
 
@@ -26,15 +27,16 @@ class ProductListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding = FragmentProductListBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        val view = layoutInflater.inflate(R.layout.fragment_product_list, container, false)
+        setHasOptionsMenu(true)
+        return view
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val internetConnectionUtils  = InternetConnectionUtils()
-        if(internetConnectionUtils.isInternetAvailable(this.requireContext())){
+        val internetConnectionUtils = InternetConnectionUtils()
+        if (internetConnectionUtils.isInternetAvailable(this.requireContext())) {
             viewModel.getItemsAndStore()
         }
         productRV.apply {
@@ -45,10 +47,49 @@ class ProductListFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.getItems.observe(viewLifecycleOwner, androidx.lifecycle.Observer  { items ->
+        viewModel.getItems.observe(viewLifecycleOwner, androidx.lifecycle.Observer { items ->
             items?.let {
                 productListAdapter.updateProductList(items)
+                productShimmer.visibility = View.GONE
+                productRV.visibility = View.VISIBLE
+                productShimmer.stopShimmer()
             }
         })
+
+        viewModel.getIsDataLoading().observe(viewLifecycleOwner, androidx.lifecycle.Observer { items ->
+            items?.let {
+                if(it){
+                    productShimmer.visibility = View.VISIBLE
+                    productRV.visibility = View.GONE
+                    productShimmer.startShimmer()
+                }else{
+                    productShimmer.visibility = View.GONE
+                    productRV.visibility = View.VISIBLE
+                    productShimmer.stopShimmer()
+                }
+            }
+        })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.cancelJobs()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.cart) {
+            findNavController().navigate(R.id.cartFragment)
+            return true
+        }
+        return NavigationUI.onNavDestinationSelected(
+            item,
+            requireView().findNavController()
+        )
+                || super.onOptionsItemSelected(item)
     }
 }

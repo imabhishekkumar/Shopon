@@ -1,16 +1,19 @@
 package me.abhishekkumar.shopon.ui.productList.adapter
 
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import me.abhishekkumar.shopon.R
-import me.abhishekkumar.shopon.databinding.ProductRowBinding
 import me.abhishekkumar.shopon.model.ItemModel
+import kotlin.math.roundToInt
 
 class ProductListAdapter(private val productsList: ArrayList<ItemModel>) :
     RecyclerView.Adapter<ProductListAdapter.ProductViewHolder>() {
@@ -33,25 +36,41 @@ class ProductListAdapter(private val productsList: ArrayList<ItemModel>) :
 
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        with(holder) {
-            with(productsList[position]) {
-                binding.productNameTV.text = title
-                binding.productPriceTV.text = "$"+ price.toString()
-                Glide.with(binding.productIV.context)
-                    .load(image)
-                    .into(binding.productIV)
 
-                binding.productRow.setOnClickListener {
-                    val valueBundle = Bundle().apply {
-                        putSerializable("item",productsList[position])
-                    }
-                    it.findNavController().navigate(R.id.productDetailsFragment,valueBundle)
+        with(productsList[position]) {
+            holder.productNameTV.text = title
+            var discountedPrice = (price!! - (price * discount!! / 100))
+            discountedPrice = (discountedPrice * 100).roundToInt() / 100.0
+            holder.productDiscountPriceTV.text = "$$discountedPrice"
+
+            holder.productPriceTV.apply {
+                paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                text = "$$price"
+            }
+            Glide.with(holder.productIV.context)
+                .load(image)
+                .into(holder.productIV)
+            if (stock!! < 10) {
+                val stockWarningTxt = "Hurry only $stock left in stock"
+                holder.productStockWarningTV.text = stockWarningTxt
+            }
+            holder.productRow.setOnClickListener {
+                val valueBundle = Bundle().apply {
+                    putSerializable("item", productsList[position])
                 }
+                it.findNavController().navigate(R.id.productDetailsFragment, valueBundle)
             }
         }
+
     }
 
     class ProductViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
-        val binding = ProductRowBinding.bind(view)
+        val productNameTV: TextView = view.findViewById(R.id.productNameTV)
+        val productIV: ImageView = view.findViewById(R.id.productIV)
+        val productStockWarningTV: TextView = view.findViewById(R.id.productStockWarningTV)
+        val productPriceTV: TextView = view.findViewById(R.id.productPriceTV)
+        val productDiscountPriceTV: TextView =
+            view.findViewById(R.id.productDiscountPriceTV)
+        val productRow: CardView = view.findViewById(R.id.productRow)
     }
 }
