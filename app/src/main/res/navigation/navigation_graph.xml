@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/productDetailsFragment"
         android:name="me.abhishekkumar.shopon.ui.productDetailsFragment.ProductDetailsFragment"
-        android:label="fragment_product_details"
+        android:label="Details"
         tools:layout="@layout/fragment_product_details" >
         <argument
             android:name="item"
@@ -22,7 +22,7 @@
     <fragment
         android:id="@+id/productListFragment"
         android:name="me.abhishekkumar.shopon.ui.productList.ProductListFragment"
-        android:label="fragment_product_list"
+        android:label="Shopon"
         tools:layout="@layout/fragment_product_list" >
         <action
             android:id="@+id/action_productListFragment_to_productDetailsFragment"
@@ -34,6 +34,6 @@
     <fragment
         android:id="@+id/cartFragment"
         android:name="me.abhishekkumar.shopon.ui.cartFragment.CartFragment"
-        android:label="fragment_cart"
+        android:label="Cart"
         tools:layout="@layout/fragment_cart" />
 </navigation>

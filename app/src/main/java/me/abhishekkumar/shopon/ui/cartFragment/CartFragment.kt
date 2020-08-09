@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_cart.*
 import me.abhishekkumar.shopon.R
 import me.abhishekkumar.shopon.ui.cartFragment.adapter.CartListAdapter
 import me.abhishekkumar.shopon.ui.viewmodel.ShoponViewModel
+import kotlin.math.roundToInt
 
 
 @AndroidEntryPoint
@@ -39,7 +40,7 @@ class CartFragment : Fragment() {
             adapter = cartListAdapter
         }
         observeViewModel()
-        orderFAB.setOnClickListener{
+        orderBtn.setOnClickListener{
             Toast.makeText(context,"Your order has been placed", Toast.LENGTH_SHORT).show()
             viewModel.deleteAllCartItems()
 
@@ -50,6 +51,21 @@ class CartFragment : Fragment() {
         viewModel.getCartItems.observe(viewLifecycleOwner, androidx.lifecycle.Observer { items ->
             items?.let {
                 cartListAdapter.updateProductList(items)
+                var total = 0.0
+                if (items.isNotEmpty()){
+                    for(item in items){
+                        var discountedPrice = (item.item.price!! - (item.item.price * item.item.discount!! / 100))
+                        discountedPrice = (discountedPrice * 100).roundToInt() / 100.0
+                        total += discountedPrice
+                    }
+                    total = (total * 100).roundToInt() / 100.0
+                    cartSummary.text ="$$total"
+                    var finalAmt  = total + (total*5/100)
+                    finalAmt = (finalAmt * 100).roundToInt() / 100.0
+                    cartTotal.text = "$$finalAmt"
+                }else{
+                    cartSummaryCV.visibility =View.GONE
+                }
             }
         })
     }

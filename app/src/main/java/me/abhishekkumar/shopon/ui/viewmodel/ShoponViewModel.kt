@@ -10,10 +10,19 @@ import me.abhishekkumar.shopon.model.CartModel
 class ShoponViewModel @ViewModelInject constructor(private val shoponRepo: ShoponRepo) :
     ViewModel() {
 
-    val getItems: MutableLiveData<List<ItemModel>> = shoponRepo.getItemsFromDB()
+    val getItemList: MutableLiveData<List<ItemModel>> = shoponRepo.itemList()
+    fun getAllItem(): MutableLiveData<List<ItemModel>> = shoponRepo.getAllItems()
+    fun getElectronicItems(): MutableLiveData<List<ItemModel>> = shoponRepo.getElectronicItemsFromDB()
+    fun getMenClothingItems(): MutableLiveData<List<ItemModel>> = shoponRepo.getMenClothingItemsFromDB()
+    fun getWomenClothingItems(): MutableLiveData<List<ItemModel>> = shoponRepo.getWomenClothingItemsFromDB()
+    fun getJeweleryItems(): MutableLiveData<List<ItemModel>> = shoponRepo.getJeweleryItemsFromDB()
+
 
     val getCartItems: MutableLiveData<List<CartModel>> = shoponRepo.getCartItems()
 
+    fun setSelectedTab(id: Int){
+        shoponRepo.setSelectedTab(id)
+    }
     fun getItemsAndStore() {
         shoponRepo.getItemsAndStore()
     }

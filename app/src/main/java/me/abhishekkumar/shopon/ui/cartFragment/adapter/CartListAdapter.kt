@@ -45,6 +45,7 @@ class CartListAdapter(private val productsList: ArrayList<CartModel>) :
                 paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 text = "$${item.price}"
             }
+            holder.productVariantCartTV.text = variant
             holder.productNumberCartTV.text = "$count pc(s)"
             Glide.with(holder.productCartIV.context)
                 .load(item.image)
@@ -59,6 +60,7 @@ class CartListAdapter(private val productsList: ArrayList<CartModel>) :
         val productCartIV: ImageView = view.findViewById(R.id.productCartIV)
         val productNumberCartTV: TextView = view.findViewById(R.id.productNumberCartTV)
         val productPriceCartTV: TextView = view.findViewById(R.id.productPriceCartTV)
+        val productVariantCartTV: TextView = view.findViewById(R.id.productCartVariantTV)
         val productDiscountPriceCartTV: TextView =
             view.findViewById(R.id.productDiscountPriceCartTV)
 

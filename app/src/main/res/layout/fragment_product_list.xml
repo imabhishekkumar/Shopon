@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,6 +10,7 @@
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/productShimmer"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -25,10 +27,82 @@
             <include layout="@layout/product_shimmer_row" />
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/productListChipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:singleLine="true"
+            app:checkedChip="@id/chipAll"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipAll"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/all"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipElectronics"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/electronics" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipMenClothing"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/men" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipWomenClothing"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/women" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipJewelery"
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/jewelery" />
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productRV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+        tools:layout_editor_absoluteX="-16dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

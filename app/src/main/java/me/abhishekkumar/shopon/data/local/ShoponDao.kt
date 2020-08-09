@@ -11,9 +11,20 @@ import me.abhishekkumar.shopon.model.ItemModel
 interface ShoponDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertItems(items: List<ItemModel>)
-
     @Query("SELECT * FROM ${ItemModel.TABLE_NAME}")
     fun allItems(): List<ItemModel>
+
+    @Query("SELECT * FROM ${ItemModel.TABLE_NAME} WHERE category=='electronics'")
+    fun allElectronicItems(): List<ItemModel>
+
+    @Query("SELECT * FROM ${ItemModel.TABLE_NAME} WHERE category=='men clothing'")
+    fun allMenClothingItems(): List<ItemModel>
+
+    @Query("SELECT * FROM ${ItemModel.TABLE_NAME} WHERE category=='jewelery'")
+    fun allJeweleryItems(): List<ItemModel>
+
+    @Query("SELECT * FROM ${ItemModel.TABLE_NAME} WHERE category=='women clothing'")
+    fun allWomenClothingItems(): List<ItemModel>
 
     @Query("DELETE FROM ${ItemModel.TABLE_NAME}")
     fun deleteAllItems()

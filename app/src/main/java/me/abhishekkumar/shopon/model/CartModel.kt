@@ -12,6 +12,7 @@ data class CartModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val item: ItemModel,
+    val variant : String = "",
     val count: Int  = 0
 ) : Serializable {
     companion object {

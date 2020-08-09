@@ -13,4 +13,14 @@
     <string name="your_order_has_been_placed">Your order has been placed.</string>
     <string name="order_placed">Order Placed</string>
     <string name="itemimage">itemImage</string>
+    <string name="electronics">Electronics</string>
+    <string name="men">Men</string>
+    <string name="women">Women</string>
+    <string name="jewelery">Jewelery</string>
+    <string name="all">All</string>
+    <string name="select_variant">Select a variant</string>
+    <string name="tax_deduction">TAX deduction</string>
+    <string name="total_amount">Total Amount</string>
+    <string name="_5">5%</string>
+    <string name="summary">Summary</string>
 </resources>
